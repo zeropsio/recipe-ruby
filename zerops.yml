@@ -1,0 +1,39 @@
+zerops:
+  - setup: app
+    build:
+      os: alpine
+      base: ruby@3.4
+      envVariables:
+        RACK_ENV: production
+        BUNDLE_DEPLOYMENT: 1
+        BUNDLE_WITHOUT: development
+      buildCommands:
+        # After permissions fix, use this simple version
+        # - bundle install
+        # - bundle exec rails assets:precompile 
+        - sudo chown -R zerops:zerops /build/source
+        - |
+          su zerops << EOF
+          whoami
+          bundle install
+          EOF
+      deployFiles:
+        - .
+    run:
+      os: alpine
+      base: ruby@3.4
+      envVariables:
+        RACK_ENV: production
+        BUNDLE_DEPLOYMENT: 1
+        BUNDLE_WITHOUT: development
+        
+        DB_HOST: $db_hostname
+        DB_PORT: $db_port
+        DB_USER: $db_user
+        DB_PASS: $db_password
+        DB_NAME: $db_dbName
+      ports:
+        - port: 8080
+          httpSupport: true
+      start: bundle exec ruby app.rb
+      

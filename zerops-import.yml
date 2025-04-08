@@ -1,0 +1,12 @@
+project:
+  name: recipe-ruby
+  tags:
+    - zerops-recipe
+services:
+  - hostname: db
+    type: postgresql@16
+    mode: NON_HA
+  - hostname: app
+    type: ruby@3.4
+    buildFromGit: https://github.com/zeropsio/recipe-ruby
+    enableSubdomainAccess: true

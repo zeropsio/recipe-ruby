@@ -8,15 +8,8 @@ zerops:
         BUNDLE_DEPLOYMENT: 1
         BUNDLE_WITHOUT: development
       buildCommands:
-        # After permissions fix, use this simple version
-        # - bundle install
-        # - bundle exec rails assets:precompile 
-        - sudo chown -R zerops:zerops /build/source
-        - |
-          su zerops << EOF
-          whoami
-          bundle install
-          EOF
+        - bundle install
+        #- bundle exec rails assets:precompile
       deployFiles:
         - .
     run:
